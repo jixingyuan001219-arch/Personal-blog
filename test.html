@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS测试页面</title>
+    <style>
+        /* 内联基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .test {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+    <!-- 测试外部CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="test">
+        <h1>CSS加载测试</h1>
+        <p>如果此框有圆角和阴影，说明CSS已加载。</p>
+
+        <div class="test" id="cssTest" style="background: linear-gradient(135deg, #3b82f6, #10b981); color: white;">
+            <h2>CSS变量测试</h2>
+            <p>如果这是渐变背景，说明CSS变量工作正常。</p>
+        </div>
+
+        <div class="test">
+            <h2>资源加载状态</h2>
+            <p id="cssStatus">检查CSS... <span class="error">❌ 未加载</span></p>
+            <p id="jsStatus">检查JavaScript... <span class="error">❌ 未加载</span></p>
+            <p id="fontStatus">检查字体... <span class="error">❌ 未检查</span></p>
+        </div>
+
+        <div class="test">
+            <h2>问题诊断</h2>
+            <ol>
+                <li>检查浏览器控制台是否有错误 (F12 → Console)</li>
+                <li>检查Network标签页，查看style.css是否成功加载</li>
+                <li>检查是否被广告拦截器阻止</li>
+                <li>尝试强制刷新 (Ctrl+F5 或 Cmd+Shift+R)</li>
+            </ol>
+        </div>
+
+        <button onclick="runTests()">运行测试</button>
+        <button onclick="location.reload(true)">强制刷新</button>
+    </div>
+
+    <script>
+        function runTests() {
+            // 测试CSS是否加载
+            const cssTest = document.getElementById('cssTest');
+            const computedStyle = window.getComputedStyle(cssTest);
+            const bg = computedStyle.backgroundImage;
+
+            if (bg && bg.includes('gradient')) {
+                document.getElementById('cssStatus').innerHTML =
+                    'CSS: <span class="success">✅ 已加载且工作正常</span>';
+            } else {
+                document.getElementById('cssStatus').innerHTML =
+                    'CSS: <span class="error">❌ 可能未正确加载</span>';
+            }
+
+            // 测试JavaScript
+            document.getElementById('jsStatus').innerHTML =
+                'JavaScript: <span class="success">✅ 已加载且工作正常</span>';
+
+            // 测试字体
+            const fontFamilies = ['Inter', 'Noto Sans SC'];
+            const bodyStyle = window.getComputedStyle(document.body);
+            const fontFamily = bodyStyle.fontFamily;
+
+            let fontLoaded = false;
+            for (const font of fontFamilies) {
+                if (fontFamily.includes(font)) {
+                    fontLoaded = true;
+                    break;
+                }
+            }
+
+            document.getElementById('fontStatus').innerHTML = fontLoaded ?
+                '字体: <span class="success">✅ 可能已加载</span>' :
+                '字体: <span class="error">⚠️ 可能使用备用字体</span>';
+        }
+
+        // 页面加载后自动运行测试
+        window.addEventListener('load', function() {
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>
