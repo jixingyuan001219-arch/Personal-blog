@@ -145,6 +145,90 @@
                 padding: 30px 15px;
             }
         }
+
+        /* 文章模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+        .modal-content {
+            background-color: var(--bg);
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .close:hover {
+            color: var(--primary);
+        }
+        .article-full {
+            line-height: 1.8;
+        }
+        .article-full h1 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .article-full h2 {
+            color: var(--text);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .article-full h3 {
+            color: var(--text);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        .article-full ul, .article-full ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .article-full li {
+            margin-bottom: 8px;
+        }
+        .article-full p {
+            margin-bottom: 15px;
+        }
+        .article-full table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .article-full th, .article-full td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: left;
+        }
+        .article-full th {
+            background-color: var(--surface);
+        }
+        .modal-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -223,8 +307,44 @@
             articles.forEach(article => {
                 article.addEventListener('click', function() {
                     const title = this.querySelector('h3').textContent;
-                    alert('打开文章: ' + title + '\n\n这是一个示例功能。');
+                    // 如果是客体分离文章，显示模态框
+                    if (title === '客体分离：游戏心态调节指南') {
+                        showArticleModal();
+                    } else {
+                        alert('打开文章: ' + title + '\n\n这是一个示例功能。');
+                    }
                 });
+            });
+
+            // 模态框功能
+            const modal = document.getElementById('articleModal');
+            const closeBtn = document.querySelector('.close');
+
+            function showArticleModal() {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            }
+
+            function hideArticleModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            // 点击关闭按钮
+            closeBtn.addEventListener('click', hideArticleModal);
+
+            // 点击模态框背景关闭
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    hideArticleModal();
+                }
+            });
+
+            // ESC键关闭
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    hideArticleModal();
+                }
             });
 
             // 主题切换（简化版）
@@ -263,5 +383,209 @@
             });
         });
     </script>
+
+    <!-- 文章模态框 -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">客体分离：游戏心态调节指南</h2>
+                <div class="meta">
+                    <div class="tags" id="modalTags">
+                        <span>心理学</span>
+                        <span>游戏</span>
+                        <span>个人成长</span>
+                    </div>
+                    <div id="modalMeta">2024-03-15 • 8分钟阅读</div>
+                </div>
+            </div>
+            <div id="modalContent" class="article-full">
+<h1>监管者心态调节指南：走出紧张与自我怀疑的困境</h1>
+
+<h2>一、监管者的常见心理问题</h2>
+<p>当你在玩监管者时，是否经历过以下心理波动？</p>
+
+<h3>场景一：开局前的焦虑</h3>
+<ul>
+<li>看到对面选出击球手、前锋等"难缠"角色，心跳就开始加速</li>
+<li>纠结天赋选择："带金身？还是带闪现？"</li>
+<li>担心被人类玩家"秀操作"，还没开局就感到压力</li>
+</ul>
+
+<h3>场景二：局内的连锁反应</h3>
+<h4>操作失误触发紧张</h4>
+<ul>
+<li>空了一刀</li>
+<li>闪现失误</li>
+<li>被板子砸中 → 手心出汗、呼吸急促</li>
+</ul>
+
+<h4>情绪化阶段</h4>
+<ul>
+<li>开始"上头"，变成机械追击</li>
+<li>归因于外部因素："这角色太强了""策划设计有问题"</li>
+<li>后续操作变形，放弃控场思路</li>
+</ul>
+
+<p>如果你有过这些体验，不必担心——这几乎是所有监管者玩家都会经历的心理过程。好消息是，这些问题都有解决方法。</p>
+
+<h2>二、问题根源：把游戏看得太重</h2>
+<p>为什么我们会因为一场游戏而情绪失控？深层原因往往是：</p>
+
+<h3>错误认知一：用游戏结果定义自我</h3>
+<ul>
+<li>"如果这把没能三抓，就等于我输了"</li>
+<li>"平局对我来说就是失败"</li>
+<li>"被三跑=我能力不行=我这个人有问题"</li>
+</ul>
+
+<h3>错误认知二：胜率成为价值标尺</h3>
+<p>在网络环境中看到其他监管者展示八九十的胜率，再看看自己五六⼗的胜率，容易产生：</p>
+<ul>
+<li>"我连监管者的标准都达不到"</li>
+<li>"别人点开我主页会看不起我"</li>
+<li>"我可能天生不适合玩这个游戏"</li>
+</ul>
+
+<p>这些想法会形成心理暗示，让你在关键时刻更容易紧张。</p>
+
+<h2>三、核心解决方案：学习"客体分离"</h2>
+
+<h3>什么是客体分离？</h3>
+<p>客体分离指的是：将外界评价与你本人的核心价值区分开来。</p>
+
+<h3>生活中的例子：</h3>
+<p>当有人说"你怎么做事这么慢"，他们的本意是：</p>
+<ul>
+<li>你在这件事的处理速度可以提升</li>
+<li>而不是在否定你这个人的价值</li>
+</ul>
+
+<h3>游戏中的体现：</h3>
+<p>闪现失误了 → 这只是：</p>
+<ul>
+<li>一次技能操作的失误</li>
+<li>一种游戏技巧的不足</li>
+<li>与你这个人的价值、能力、品格毫无关系</li>
+</ul>
+
+<h2>四、游戏策划设置的"心理陷阱"</h2>
+<p>在设计层面，游戏通过各种机制强化你的紧张感：</p>
+
+<table class="article-table">
+<tr>
+<td>机制</td>
+<td>目的</td>
+<td>本质</td>
+</tr>
+</table>
+<p>| --- | --- | --- |</p>
+<table class="article-table">
+<tr>
+<td>主页展示胜率/段位</td>
+<td>让你觉得"必须维持高数据"</td>
+<td>增加你的游戏投入时间</td>
+</tr>
+<tr>
+<td>排行榜系统</td>
+<td>引导玩家相互竞争</td>
+<td>提升玩家活跃度</td>
+</tr>
+<tr>
+<td>角色强度调整</td>
+<td>制造"我打不过是因为角色"的错觉</td>
+<td>维持游戏平衡话题度</td>
+</tr>
+</table>
+
+<p>认清这一点很重要：这些设计是为了让你更投入地玩游戏，而不是为了定义你个人的价值。</p>
+
+<h2>五、实践训练：三步学会客体分离</h2>
+
+<h3>第一步：建立认知意识</h3>
+<p>在听到负面评价或出现失误时，第一时间问自己：</p>
+<p>"对方是在评价我这个人，还是在评价我的某项能力/操作？"</p>
+
+<h3>第二步：强化价值锚点</h3>
+<p>记住这个核心观念：</p>
+<ul>
+<li>别人的评价只能说明你在某个方面需要改进</li>
+<li>没有任何评价能定义你的核心价值</li>
+<li>失误不会让你变得"渺小"，就像成功不会让你变得"伟大"</li>
+</ul>
+
+<h3>第三步：游戏内的具体应用</h3>
+<h4>面对嘲讽时</h4>
+<ul>
+<li>对方："就这水平还玩监管？"</li>
+<li>正确解读："他认为我这局游戏的处理可以更好"</li>
+<li>错误解读："他在否定我这个人的价值"</li>
+</ul>
+
+<h4>操作失误时</h4>
+<ul>
+<li>事实："我闪现空了"</li>
+<li>客体分离解读："这个技能释放时机需要练习"</li>
+<li>避免的解读："我是个连闪现都用不好的失败者"</li>
+</ul>
+
+<h4>赛后反思时</h4>
+<ul>
+<li>关注点放在："这局我在控场节奏/技能使用上哪里可以改进"</li>
+<li>而不是："我是不是天生不适合玩监管"</li>
+</ul>
+
+<h2>六、长期心态建设</h2>
+
+<h3>心态调整要点</h3>
+<h4>把游戏放回适当位置</h4>
+<ul>
+<li>它只是你生活中的一种娱乐方式</li>
+<li>不是衡量你个人价值的标尺</li>
+</ul>
+
+<h4>接受不完美的必然性</h4>
+<ul>
+<li>每个人都会有失误，职业选手也不例外</li>
+<li>失误是学习和进步的必要过程</li>
+</ul>
+
+<h4>重新定义"胜利"</h4>
+<ul>
+<li>胜利不一定是四抓</li>
+<li>成功执行了新的战术思路 → 胜利</li>
+<li>发现了某个角色的应对方法 → 胜利</li>
+<li>在高压下保持了冷静思考 → 胜利</li>
+</ul>
+
+<h3>日常训练建议</h3>
+<ul>
+<li>每天开始游戏前，提醒自己："我是来享受游戏过程，不是来证明自己的价值"</li>
+<li>每局结束后，用30秒进行客体分离式复盘："这局在技术上哪里可以改进"</li>
+<li>当感到紧张时，做一次深呼吸，在心里重复："这只是游戏，不是对我的审判"</li>
+</ul>
+
+<h2>总结：你比游戏更重要</h2>
+
+<h3>根本性原则</h3>
+<p>游戏内的表现 ≠ 你本人的价值</p>
+
+<h3>当你掌握客体分离时</h3>
+<ul>
+<li>紧张感会自然降低</li>
+<li>决策会更清晰理性</li>
+<li>失误后的恢复能力会大幅提升</li>
+<li>游戏体验会从"证明自己"变为"享受过程"</li>
+</ul>
+
+<h3>最终建议</h3>
+<p>游戏设计会不断制造焦虑，但你有选择回应的权利。从现在开始，练习用客体分离的视角看待每一次对局——你会发现，当你不再害怕失败时，胜利反而变得更容易了。</p>
+
+<h2>致每一位监管者玩家：</h2>
+<p>你的价值不由游戏数据定义，你的人生远比任何对局都丰富。放松些，享受游戏本来的乐趣。</p>
+</div>
+        </div>
+    </div>
+
 </body>
 </html>
